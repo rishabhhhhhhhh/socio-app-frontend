@@ -46,7 +46,7 @@ import {
         formData.append("picturePath", image.name);
       }
   
-      const response = await fetch(`http://localhost:3001/posts`, {
+      const response = await fetch(`https://socio-app-backend.onrender.com/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -64,7 +64,7 @@ import {
 
     const getUserPosts = async () => {
       const response = await fetch(
-        `http://localhost:3001/posts/${_id}/posts`,
+        `https://socio-app-backend.onrender.com/posts/${_id}/posts`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
