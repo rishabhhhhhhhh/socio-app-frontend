@@ -24,10 +24,13 @@ import {
   import { useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
   import { setPosts } from "state";
+import { SERVER_URL } from "constants";
+import { getBase64 } from "constants";
   
-  const MyPostWidget = ({ picturePath, isProfile = false }) => {
+  const MyPostWidget = ({ userImagePictureBase, isProfile = false }) => {
     const dispatch = useDispatch();
     const [isImage, setIsImage] = useState(false);
+    const [pictureBase, setPictureBase] = useState(null);
     const [image, setImage] = useState(null);
     const [post, setPost] = useState("");
     const { palette } = useTheme();
@@ -37,6 +40,16 @@ import {
     const mediumMain = palette.neutral.mediumMain;
     const medium = palette.neutral.medium;
   
+    const base64Callback = async (err, res) => {
+      if (!err) {
+        console.log('result pb(my post widget) : ' + res);
+        setPictureBase(res); // setting the state is the important part 
+      } else {
+        console.log('result pb(m p w) : ' + null);
+        setPictureBase(null);
+      }
+    };
+
     const handlePost = async () => {
       const formData = new FormData();
       formData.append("userId", _id);
@@ -44,9 +57,10 @@ import {
       if (image) {
         formData.append("picture", image);
         formData.append("picturePath", image.name);
+        formData.append("pictureBase", pictureBase);
       }
   
-      const response = await fetch(`https://socio-app-backend.vercel.app/posts`, {
+      const response = await fetch(`${SERVER_URL}/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -64,7 +78,7 @@ import {
 
     const getUserPosts = async () => {
       const response = await fetch(
-        `https://socio-app-backend.vercel.app/posts/${_id}/posts`,
+        `${SERVER_URL}/posts/${_id}/posts`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -77,7 +91,7 @@ import {
     return (
       <WidgetWrapper>
         <FlexBetween gap="1.5rem">
-          <UserImage image={picturePath} />
+          <UserImage image={userImagePictureBase} />
           <InputBase
             placeholder="What's on your mind..."
             onChange={(e) => setPost(e.target.value)}
@@ -100,7 +114,10 @@ import {
             <Dropzone
               acceptedFiles=".jpg,.jpeg,.png"
               multiple={false}
-              onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+              onDrop={(acceptedFiles) => {
+                setImage(acceptedFiles[0])
+                getBase64(acceptedFiles[0], base64Callback);
+              }}
             >
               {({ getRootProps, getInputProps }) => (
                 <FlexBetween>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
+import { SERVER_URL } from "constants";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
-    const response = await fetch("https://socio-app-backend.vercel.app/posts", {
+    const response = await fetch(`${SERVER_URL}/posts`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -17,9 +18,19 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
 
+  const getAllPosts = (posts) => {
+    if(posts === null || posts === undefined) {
+      return [];
+    }
+    if(Array.isArray(posts)) {
+      return posts;
+    }
+    return [];
+  }
+
   const getUserPosts = async () => {
     const response = await fetch(
-      `https://socio-app-backend.vercel.app/posts/${userId}/posts`,
+      `${SERVER_URL}/posts/${userId}/posts`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
@@ -38,9 +49,11 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   console.log("Posts : " + JSON.stringify(posts));
+  const allPosts = getAllPosts(posts);
+
   return (
     <>
-      {posts.map(
+      {allPosts.map(
         ({
           _id,
           userId,
@@ -48,8 +61,8 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           lastName,
           description,
           location,
-          picturePath,
-          userPicturePath,
+          pictureBase, // TODO : MIGHT NEED TO REVERT
+          userPictureBase,
           likes,
           comments,
         }) => (
@@ -60,8 +73,8 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             name={`${firstName} ${lastName}`}
             description={description}
             location={location}
-            picturePath={picturePath}
-            userPicturePath={userPicturePath}
+            pictureBase={pictureBase}
+            userPictureBase={userPictureBase}
             likes={likes}
             comments={comments}
           />

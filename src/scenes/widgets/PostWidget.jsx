@@ -1,5 +1,4 @@
 import {
-    AddComment,
     ChatBubbleOutlineOutlined,
     FavoriteBorderOutlined,
     FavoriteOutlined,
@@ -13,6 +12,7 @@ import {
   import { useDispatch, useSelector } from "react-redux";
   import { setPost } from "state";
 import CommentBox from "./CommentBox";
+import { SERVER_URL } from "constants";
   
   const PostWidget = ({
     postId,
@@ -20,8 +20,8 @@ import CommentBox from "./CommentBox";
     name,
     description,
     location,
-    picturePath,
-    userPicturePath,
+    pictureBase,
+    userPictureBase,
     likes,
     comments,
   }) => {
@@ -37,7 +37,7 @@ import CommentBox from "./CommentBox";
     const primary = palette.primary.main;
   
     const patchLike = async () => {
-      const response = await fetch(`https://socio-app-backend.vercel.app/posts/${postId}/like`, {
+      const response = await fetch(`${SERVER_URL}/posts/${postId}/like`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -55,18 +55,18 @@ import CommentBox from "./CommentBox";
           friendId={postUserId}
           name={name}
           subtitle={location}
-          userPicturePath={userPicturePath}
+          userPictureBase={userPictureBase}
         />
         <Typography color={main} sx={{ mt: "1rem" }}>
           {description}
         </Typography>
-        {picturePath && (
+        {pictureBase && (
           <img
             width="100%"
             height="auto"
             alt="post"
             style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-            src={`https://socio-app-backend.vercel.app/assets/${picturePath}`}
+            src={pictureBase}
           />
         )}
         <FlexBetween mt="0.25rem">

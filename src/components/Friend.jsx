@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { setFriends } from "state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
+import { SERVER_URL } from "constants";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({ friendId, name, subtitle, userPictureBase }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
@@ -37,7 +38,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `https://socio-app-backend.vercel.app/users/${_id}/${friendId}`,
+      `${SERVER_URL}/users/${_id}/${friendId}`,
       {
         method: "PATCH",
         headers: {
@@ -53,7 +54,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <UserImage image={userPicturePath} size="55px" />
+        <UserImage image={userPictureBase} size="55px" />
         <Box
           onClick={() => {
             navigate(`/profile/${friendId}`);

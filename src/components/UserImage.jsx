@@ -1,6 +1,8 @@
 import { Box } from "@mui/material";
+import { SERVER_URL } from "constants";
 
 const UserImage = ({ image, size = "60px" }) => {
+  console.log("IMGL:" + image)
   return (
     <Box width={size} height={size}>
       <img
@@ -8,7 +10,7 @@ const UserImage = ({ image, size = "60px" }) => {
         width={size}
         height={size}
         alt="user"
-        src={`https://socio-app-backend.vercel.app/assets/${image}`} // TODO might be dependent on server port
+        src={image} // TODO might be dependent on server port
       />
     </Box>
   );

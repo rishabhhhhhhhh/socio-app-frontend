@@ -4,16 +4,17 @@ import {
     LocationOnOutlined,
     WorkOutlineOutlined,
   } from "@mui/icons-material";
-  import { Box, Typography, Divider, useTheme } from "@mui/material";
-  import UserImage from "components/UserImage";
-  import FlexBetween from "components/FlexBetween";
-  import WidgetWrapper from "components/WidgetWrapper";
-  import { useSelector } from "react-redux";
-  import { useEffect } from "react";
-  import { useNavigate } from "react-router-dom";
-  import { setUserInfo } from "state";
+import { Box, Typography, Divider, useTheme } from "@mui/material";
+import UserImage from "components/UserImage";
+import FlexBetween from "components/FlexBetween";
+import WidgetWrapper from "components/WidgetWrapper";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { setUserInfo } from "state";
+import { SERVER_URL } from "constants";
   
-  const UserWidget = ({ userId, picturePath }) => {
+  const UserWidget = ({ userId, pictureBase }) => {
     const { palette } = useTheme();
     const navigate = useNavigate();
     const token = useSelector((state) => state.token);
@@ -23,7 +24,7 @@ import {
     const user = useSelector((state) => state.user);
   
     const getUser = async () => {
-      const response = await fetch(`https://socio-app-backend.vercel.app/users/${userId}`, {
+      const response = await fetch(`${SERVER_URL}/users/${userId}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -58,7 +59,7 @@ import {
           onClick={() => navigate(`/profile/${userId}`)}
         >
           <FlexBetween gap="1rem">
-            <UserImage image={picturePath} />
+            <UserImage image={pictureBase} />
             <Box>
               <Typography
                 variant="h4"

@@ -1,4 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
+import { SERVER_URL } from "constants";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -18,7 +19,7 @@ const ProfilePage = () => {
   const loggedInUserId = (loggedInUser === null || loggedInUser === undefined) ? null : loggedInUser._id;
 
   const getUser = async () => {
-    const response = await fetch(`https://socio-app-backend.vercel.app/users/${userId}`, {
+    const response = await fetch(`${SERVER_URL}/users/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -43,7 +44,7 @@ const ProfilePage = () => {
         justifyContent="center"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={userId} picturePath={user.picturePath} />
+          <UserWidget userId={userId} pictureBase={user.pictureBase} />
           <Box m="2rem 0" />
           <FriendListWidget userId={userId} />
         </Box>
@@ -54,7 +55,7 @@ const ProfilePage = () => {
           {
             (loggedInUserId === userId) && (
               <>
-                <MyPostWidget picturePath={user.picturePath} isProfile={true} />
+                <MyPostWidget userImagePictureBase={user.pictureBase} isProfile={true} />
                 <Box m="2rem 0" />
               </>
             )

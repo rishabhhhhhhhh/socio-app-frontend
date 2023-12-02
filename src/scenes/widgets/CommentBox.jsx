@@ -3,6 +3,7 @@ import { Box, IconButton, InputBase, useTheme } from '@mui/material'
 import { AddComment } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from 'state';
+import { SERVER_URL } from 'constants';
 
 const CommentBox = ({ loggedInUserId, postId }) => {
   const { palette } = useTheme();
@@ -11,7 +12,7 @@ const CommentBox = ({ loggedInUserId, postId }) => {
   const token = useSelector((state) => state.token);
 
   const handleCommentSubmit = async () => {
-    const response = await fetch(`https://socio-app-backend.vercel.app/posts/${postId}/addComment`, {
+    const response = await fetch(`${SERVER_URL}/posts/${postId}/addComment`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

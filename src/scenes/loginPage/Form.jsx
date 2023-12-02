@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
+import { SERVER_URL } from "constants";
+import { getBase64 } from "constants";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -54,6 +56,7 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const [pictureBase, setPictureBase] = useState(null);
 
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
@@ -62,9 +65,10 @@ const Form = () => {
       formData.append(value, values[value]);
     }
     formData.append("picturePath", values.picture.name);
+    formData.append("pictureBase", pictureBase);
 
     const savedUserResponse = await fetch(
-      "https://socio-app-backend.vercel.app/auth/register",
+      `${SERVER_URL}/auth/register`,
       {
         method: "POST",
         body: formData,
@@ -79,7 +83,7 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("https://socio-app-backend.vercel.app/auth/login", {
+    const loggedInResponse = await fetch(`${SERVER_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
@@ -94,6 +98,16 @@ const Form = () => {
         })
       );
       navigate("/home");
+    }
+  };
+
+  const base64Callback = async (err, res) => {
+    if (!err) {
+      console.log('result pb : ' + res);
+      setPictureBase(res); // setting the state is the important part 
+    } else {
+      console.log('result pb : ' + null);
+      setPictureBase(null);
     }
   };
 
@@ -182,8 +196,10 @@ const Form = () => {
                   <Dropzone
                     acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
-                    onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
+                    onDrop={(acceptedFiles) => {
+                        setFieldValue("picture", acceptedFiles[0]);
+                        getBase64(acceptedFiles[0], base64Callback);
+                      }
                     }
                   >
                     {({ getRootProps, getInputProps }) => (
