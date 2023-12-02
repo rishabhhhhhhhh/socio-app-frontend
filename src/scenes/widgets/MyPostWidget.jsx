@@ -51,20 +51,17 @@ import { getBase64 } from "constants";
     };
 
     const handlePost = async () => {
-      const formData = new FormData();
-      formData.append("userId", _id);
-      formData.append("description", post);
-      if (image) {
-        formData.append("picture", image);
-        formData.append("picturePath", image.name);
-        formData.append("pictureBase", pictureBase);
-      }
+      const values = {};
+      values["userId"] = _id;
+      values["description"] = post;
+      values["pictureBase"] = pictureBase;
   
       const response = await fetch(`${SERVER_URL}/posts`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(values)
       });
+      
       if(isProfile) {
         getUserPosts();
       } else {
