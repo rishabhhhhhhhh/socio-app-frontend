@@ -60,18 +60,16 @@ const Form = () => {
 
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("picturePath", values.picture.name);
-    formData.append("pictureBase", pictureBase);
+    values["pictureBase"] = pictureBase;
+    
+    console.log("RVALUES : " + JSON.stringify(values));
 
     const savedUserResponse = await fetch(
       `${SERVER_URL}/auth/register`,
       {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
       }
     );
     const savedUser = await savedUserResponse.json();
