@@ -23,7 +23,7 @@ import {
     const user = useSelector((state) => state.user);
   
     const getUser = async () => {
-      const response = await fetch(`https://socio-app-backend.onrender.com/users/${userId}`, {
+      const response = await fetch(`https://socio-app-backend.vercel.app/users/${userId}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });

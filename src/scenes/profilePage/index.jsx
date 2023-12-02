@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const loggedInUserId = (loggedInUser === null || loggedInUser === undefined) ? null : loggedInUser._id;
 
   const getUser = async () => {
-    const response = await fetch(`https://socio-app-backend.onrender.com/users/${userId}`, {
+    const response = await fetch(`https://socio-app-backend.vercel.app/users/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

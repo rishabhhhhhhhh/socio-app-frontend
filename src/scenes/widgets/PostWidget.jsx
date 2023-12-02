@@ -37,7 +37,7 @@ import CommentBox from "./CommentBox";
     const primary = palette.primary.main;
   
     const patchLike = async () => {
-      const response = await fetch(`https://socio-app-backend.onrender.com/posts/${postId}/like`, {
+      const response = await fetch(`https://socio-app-backend.vercel.app/posts/${postId}/like`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ import CommentBox from "./CommentBox";
             height="auto"
             alt="post"
             style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-            src={`https://socio-app-backend.onrender.com/assets/${picturePath}`}
+            src={`https://socio-app-backend.vercel.app/assets/${picturePath}`}
           />
         )}
         <FlexBetween mt="0.25rem">

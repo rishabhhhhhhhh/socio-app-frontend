@@ -11,7 +11,7 @@ const CommentBox = ({ loggedInUserId, postId }) => {
   const token = useSelector((state) => state.token);
 
   const handleCommentSubmit = async () => {
-    const response = await fetch(`https://socio-app-backend.onrender.com/posts/${postId}/addComment`, {
+    const response = await fetch(`https://socio-app-backend.vercel.app/posts/${postId}/addComment`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
