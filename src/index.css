@@ -15,3 +15,15 @@ body,
   padding-bottom: 0.5rem;
   color: darkgrey !important;
 }
+
+.comment-box-details {
+  display: flex;
+  align-items: center;
+}
+
+.comment-box-user-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0px 10px 10px; 
+}

@@ -24,7 +24,8 @@ const CommentBox = ({ postId }) => {
           userId: loggedUser._id, 
           commentText,
           firstName: loggedUser.firstName,
-          lastName: loggedUser.lastName
+          lastName: loggedUser.lastName,
+          userPictureBase: loggedUser.pictureBase
         }),
       });
 
