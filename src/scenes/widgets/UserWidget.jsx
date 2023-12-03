@@ -11,7 +11,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { setUserInfo } from "state";
+import { useState } from "react";
 import { SERVER_URL } from "constants";
   
   const UserWidget = ({ userId, pictureBase }) => {
@@ -21,7 +21,7 @@ import { SERVER_URL } from "constants";
     const dark = palette.neutral.dark;
     const medium = palette.neutral.medium;
     const main = palette.neutral.main;
-    const user = useSelector((state) => state.user);
+    const [profileUser, setProfileUser] = useState(null);
   
     const getUser = async () => {
       const response = await fetch(`${SERVER_URL}/users/${userId}`, {
@@ -29,14 +29,14 @@ import { SERVER_URL } from "constants";
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
-      setUserInfo(data);
+      setProfileUser(data);
     };
   
     useEffect(() => {
       getUser();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  
-    if (!user) {
+
+    if (!profileUser) {
       return null;
     }
   
@@ -48,7 +48,7 @@ import { SERVER_URL } from "constants";
       viewedProfile,
       impressions,
       friends,
-    } = user;
+    } = profileUser;
   
     return (
       <WidgetWrapper>

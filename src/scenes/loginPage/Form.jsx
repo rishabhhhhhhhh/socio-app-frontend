@@ -74,6 +74,7 @@ const Form = () => {
     );
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
+    setPictureBase(null);
 
     if (savedUser) {
       setPageType("login");

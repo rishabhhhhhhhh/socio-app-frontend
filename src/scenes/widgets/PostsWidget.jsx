@@ -4,7 +4,7 @@ import { setPosts } from "state";
 import PostWidget from "./PostWidget";
 import { SERVER_URL } from "constants";
 
-const PostsWidget = ({ userId, isProfile = false }) => {
+const PostsWidget = ({ userId, isProfile }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
@@ -69,6 +69,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           <PostWidget
             key={_id}
             postId={_id}
+            isProfile={isProfile}
             postUserId={userId}
             name={`${firstName} ${lastName}`}
             description={description}

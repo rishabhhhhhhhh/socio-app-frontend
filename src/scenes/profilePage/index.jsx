@@ -45,8 +45,6 @@ const ProfilePage = () => {
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <UserWidget userId={userId} pictureBase={user.pictureBase} />
-          <Box m="2rem 0" />
-          <FriendListWidget userId={userId} />
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
@@ -60,7 +58,7 @@ const ProfilePage = () => {
               </>
             )
           }
-          <PostsWidget userId={userId} isProfile />
+          <PostsWidget userId={userId} isProfile={true} />
         </Box>
       </Box>
     </Box>

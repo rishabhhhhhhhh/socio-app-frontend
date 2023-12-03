@@ -16,6 +16,7 @@ import { SERVER_URL } from "constants";
   
   const PostWidget = ({
     postId,
+    isProfile,
     postUserId,
     name,
     description,
@@ -48,9 +49,11 @@ import { SERVER_URL } from "constants";
       const updatedPost = await response.json();
       dispatch(setPost({ post: updatedPost }));
     };
-  
+    
+    const margin = isProfile ? "0 0 2rem 0" : "2rem 0";
+   
     return (
-      <WidgetWrapper m="2rem 0">
+      <WidgetWrapper m={margin}>
         <Friend
           friendId={postUserId}
           name={name}

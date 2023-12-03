@@ -33,7 +33,7 @@ const HomePage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <MyPostWidget userImagePictureBase={pictureBase} />
-          <PostsWidget userId={_id} />
+          <PostsWidget userId={_id} isProfile={false} />
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">

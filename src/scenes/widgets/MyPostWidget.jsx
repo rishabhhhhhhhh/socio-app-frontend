@@ -61,7 +61,7 @@ import { getBase64 } from "constants";
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify(values)
       });
-      
+
       if(isProfile) {
         getUserPosts();
       } else {
@@ -70,6 +70,7 @@ import { getBase64 } from "constants";
       }
 
       setImage(null);
+      setPictureBase(null);
       setPost("");
     };
 
