@@ -33,7 +33,6 @@ const Friend = ({ friendId, name, subtitle, userPictureBase }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
 
-  console.log("Friends : " + JSON.stringify(friends));
   const isFriend = friends.find((friend) => friend._id === friendId);
 
   const patchFriend = async () => {

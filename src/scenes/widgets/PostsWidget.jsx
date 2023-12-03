@@ -48,7 +48,6 @@ const PostsWidget = ({ userId, isProfile }) => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log("Posts : " + JSON.stringify(posts));
   const allPosts = getAllPosts(posts);
 
   return (

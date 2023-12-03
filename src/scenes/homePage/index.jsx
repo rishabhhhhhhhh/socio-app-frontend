@@ -9,11 +9,7 @@ import FriendListWidget from "scenes/widgets/FriendListWidget";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const user = useSelector(state => state.user);
   const { _id, pictureBase } = useSelector((state) => state.user);
-
-  console.log("INSIDE HOME PAGE : " + JSON.stringify(user));
-  console.log("PB : " + pictureBase);
 
   return (
     <Box>

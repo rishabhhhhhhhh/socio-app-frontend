@@ -105,10 +105,8 @@ const Form = () => {
 
   const base64Callback = async (err, res) => {
     if (!err) {
-      console.log('result pb : ' + res);
       setPictureBase(res); // setting the state is the important part 
     } else {
-      console.log('result pb : ' + null);
       setPictureBase(null);
     }
   };

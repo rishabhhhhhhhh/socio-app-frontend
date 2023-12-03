@@ -42,10 +42,8 @@ import { getBase64 } from "constants";
   
     const base64Callback = async (err, res) => {
       if (!err) {
-        console.log('result pb(my post widget) : ' + res);
         setPictureBase(res); // setting the state is the important part 
       } else {
-        console.log('result pb(m p w) : ' + null);
         setPictureBase(null);
       }
     };
