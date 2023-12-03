@@ -13,6 +13,7 @@ import {
   import { setPost } from "state";
 import CommentBox from "./CommentBox";
 import { SERVER_URL } from "constants";
+import { useNavigate } from "react-router-dom";
   
   const PostWidget = ({
     postId,
@@ -36,6 +37,7 @@ import { SERVER_URL } from "constants";
     const { palette } = useTheme();
     const main = palette.neutral.main;
     const primary = palette.primary.main;
+    const navigate = useNavigate();
   
     const patchLike = async () => {
       const response = await fetch(`${SERVER_URL}/posts/${postId}/like`, {
@@ -49,9 +51,9 @@ import { SERVER_URL } from "constants";
       const updatedPost = await response.json();
       dispatch(setPost({ post: updatedPost }));
     };
-    
+  
     const margin = isProfile ? "0 0 2rem 0" : "2rem 0";
-   
+
     return (
       <WidgetWrapper m={margin}>
         <Friend
@@ -99,19 +101,22 @@ import { SERVER_URL } from "constants";
         </FlexBetween>
         <Box mt="0.5rem" />
         <FlexBetween>
-          <CommentBox loggedInUserId={loggedInUserId} postId={postId}/>
+          <CommentBox postId={postId}/>
         </FlexBetween>
         {isComments && (
-          <Box mt="0.5rem">
+          <Box mt="1rem">
             {comments.map((comment, i) => (
-              <Box key={`${name}-${i}`}>
-                <Divider />
-                <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                  {comment}
-                </Typography>
+              <Box key={`${name}-${i}`} className="comment-box">
+                  <Typography 
+                    onClick={() => navigate(`/profile/${comment.userId}`)} 
+                    sx={{ color: "darkgrey", m: "0.5rem 0", pl: "1rem", "font-weight": "500", "cursor": "pointer" }}>
+                    {comment.firstName} {comment.lastName}
+                  </Typography>
+                  <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                    {comment.commentText}
+                  </Typography>
               </Box>
             ))}
-            <Divider />
           </Box>
         )}
       </WidgetWrapper>

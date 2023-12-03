@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from 'state';
 import { SERVER_URL } from 'constants';
 
-const CommentBox = ({ loggedInUserId, postId }) => {
+const CommentBox = ({ postId }) => {
+
   const { palette } = useTheme();
   const [commentText, setCommentText] = useState("");
   const dispatch = useDispatch();
+  const loggedUser = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
 
   const handleCommentSubmit = async () => {
@@ -18,7 +20,12 @@ const CommentBox = ({ loggedInUserId, postId }) => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId: loggedInUserId, commentText }),
+        body: JSON.stringify({ 
+          userId: loggedUser._id, 
+          commentText,
+          firstName: loggedUser.firstName,
+          lastName: loggedUser.lastName
+        }),
       });
 
       const updatedPost = await response.json();

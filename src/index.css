@@ -8,3 +8,11 @@ body,
   width: 100%;
   font-family: "Rubik", sans-serif;
 }
+
+.comment-box {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 5px;
+  margin: 0.5rem ;
+  padding-bottom: 0.5rem;
+  color: darkgrey !important;
+}
