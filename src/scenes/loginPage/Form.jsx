@@ -57,13 +57,12 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
   const [pictureBase, setPictureBase] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
     values["pictureBase"] = pictureBase;
     
-    console.log("RVALUES : " + JSON.stringify(values));
-
     const savedUserResponse = await fetch(
       `${SERVER_URL}/auth/register`,
       {
@@ -78,6 +77,7 @@ const Form = () => {
 
     if (savedUser) {
       setPageType("login");
+      setErrorMsg(null);
     }
   };
 
@@ -89,14 +89,17 @@ const Form = () => {
     });
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
-    if (loggedIn) {
+    if (!!loggedIn.token) {
       dispatch(
         setLogin({
           user: loggedIn.user,
           token: loggedIn.token,
         })
       );
+      setErrorMsg(null);
       navigate("/home");
+    } else {
+      setErrorMsg("Either you are entering the wrong credentials or you need to sign up first.")
     }
   };
 
@@ -262,6 +265,15 @@ const Form = () => {
             >
               {isLogin ? "LOGIN" : "REGISTER"}
             </Button>
+            {
+              (errorMsg !== null && isLogin) && (
+                <Typography
+                  sx={{ "color": "red" }}
+                >
+                  {errorMsg}
+                </Typography>
+              )
+            }
             <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
@@ -271,8 +283,7 @@ const Form = () => {
                 textDecoration: "underline",
                 color: palette.primary.main,
                 "&:hover": {
-                  cursor: "pointer",
-                  color: palette.primary.light,
+                  cursor: "pointer"
                 },
               }}
             >
